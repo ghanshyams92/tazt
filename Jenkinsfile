@@ -20,6 +20,10 @@
       
       stage('TF Unit Test') {
         steps {
+          sh 'id'
+          sh 'whoami'
+          sh 'pwd'
+          sh 'ls'
           sh 'terraform init'
           sh 'terraform validate'
           sh 'sleep 15' 
