@@ -22,6 +22,7 @@
         steps {
           sh 'terraform init'
           sh 'terraform validate'
+          sh 'sleep 15' 
         }      
       }
       
