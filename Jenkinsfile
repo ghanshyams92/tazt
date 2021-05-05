@@ -61,7 +61,7 @@
            export arm_sub_id="${ARM_SUBSCRIPTION_ID}"
            export arm_tenant_id="${ARM_TENANT_ID}"
            export arm_client_password="${ARM_CLIENT_PASSWORD}"
-           terraform apply 
+           terraform apply -auto-approve
            """
         }
       }
