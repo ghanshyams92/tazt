@@ -20,6 +20,7 @@
       
       stage('TF Unit Test') {
         steps {
+          sh 'terraform init'
           sh 'terraform validate'
         }      
       }
