@@ -18,22 +18,16 @@
         }
       }
       
-      stage('TF Unit Test') {
+      stage('TF Init & Unit Test') {
         steps {
-          sh 'id'
-          sh 'whoami'
-          sh 'pwd'
-          sh 'ls'
           sh 'terraform init'
           sh 'terraform validate'
-          sh 'sleep 15' 
         }      
       }
       
-      stage('TF Init&Plan') {
+      stage('TF Plan') {
         steps {
            sh """
-           ls
            terraform plan
            """
         }      
@@ -46,6 +40,7 @@
            export arm_tenant_id="${ARM_TENANT_ID}"
            export arm_client_password="${ARM_CLIENT_PASSWORD}"
            cd tests
+           export PATH=$PATH:/usr/local/go/bin
            go test -tags azure . -v
            """
         }      
