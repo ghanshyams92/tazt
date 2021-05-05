@@ -28,11 +28,10 @@
       stage('TF Init&Plan') {
         steps {
            sh """
-           export arm_client_key="${ARM_CLIENT_ID}"
-           export arm_sub_id="${ARM_SUBSCRIPTION_ID}"
-           export arm_tenant_id="${ARM_TENANT_ID}"
-           export arm_client_password="${ARM_CLIENT_PASSWORD}"
-           terraform init
+           export arm_client_key=${ARM_CLIENT_ID}
+           export arm_sub_id=${ARM_SUBSCRIPTION_ID}
+           export arm_tenant_id=${ARM_TENANT_ID}
+           export arm_client_password=${ARM_CLIENT_PASSWORD}
            terraform plan
            """
         }      
