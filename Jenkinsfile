@@ -17,6 +17,16 @@
           git credentialsId: '17371c59-6b11-42c7-bb25-a37a9febb4db', url: 'https://github.com/ghanshyams92/tazt'
         }
       }
+      stage('test') {
+        steps {
+          checkout([$class: 'GitSCM', branches: [[name: 'master']], userRemoteConfigs: [[url: '']]])
+          script {
+             sh "pipenv install"
+             sh "pipenv run pip install bridgecrew"
+             sh "pipenv run bridgecrew --directory .  --bc-api-key 1e54d25b-92c5-5498-a850-fbd5eea64509 --repo-id org/repo"
+                }
+            }
+        }
       
       stage('TF Init & Unit Test') {
         steps {
