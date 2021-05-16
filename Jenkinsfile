@@ -23,6 +23,7 @@ pipeline {
                       label "7078"
           } 
         }
+        }
        environment {
          ARM_CLIENT_ID="${arm_client_key}"
          ARM_SUBSCRIPTION_ID="${arm_sub_id}"
