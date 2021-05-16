@@ -12,7 +12,7 @@
       
     }
     stages {
-      stage('Fetch Latest_Code') {
+      stage('Pull Code') {
         steps {
           git credentialsId: '17371c59-6b11-42c7-bb25-a37a9febb4db', url: 'https://github.com/ghanshyams92/tazt'
         }
@@ -49,7 +49,7 @@
            """
         }      
       }
-      stage('TerraTest Infra test and Destroy') {
+      stage('Terratest: Deploy, Validate & Undeploy') {
         steps {
            sh """
            export arm_client_key="${ARM_CLIENT_ID}"
@@ -63,7 +63,7 @@
         }      
       }
 
-      stage('Approval') {
+      stage('Approval: Confirm/Abort') {
         steps {
           script {
             def userInput = input(id: 'confirm', message: 'Apply Terraform?', parameters: [ [$class: 'BooleanParameterDefinition', defaultValue: false, description: 'Apply terraform', name: 'confirm'] ])
