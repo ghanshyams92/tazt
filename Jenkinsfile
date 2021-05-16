@@ -17,7 +17,7 @@
           git credentialsId: '17371c59-6b11-42c7-bb25-a37a9febb4db', url: 'https://github.com/ghanshyams92/tazt'
         }
       }
-    stage('test') {
+    stage('Checkov: Analyzing static codes for IaC') {
     agent {
         docker {
             image 'kennethreitz/pipenv:latest'
@@ -49,7 +49,7 @@
            """
         }      
       }
-      stage('TerraTest Infra test and detroy') {
+      stage('TerraTest Infra test and Destroy') {
         steps {
            sh """
            export arm_client_key="${ARM_CLIENT_ID}"
@@ -71,7 +71,7 @@
         }
       }
 
-      stage('Provision Infra in Target Cloud') {
+      stage('Provision Infra in MS Azure Cloud') {
         steps {
            sh """
            export arm_client_key="${ARM_CLIENT_ID}"
@@ -82,7 +82,7 @@
            """
         }
       }
-      stage('Show') {
+      stage('Show: Provisioned Infra Details') {
         steps {
            sh """
            export arm_client_key="${ARM_CLIENT_ID}"
