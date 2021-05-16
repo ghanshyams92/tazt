@@ -19,27 +19,24 @@ pipeline {
         }
         stage ('7078') {
             agent {
-                 node {
-                      label "7078"
-          } 
-        }
-        }
-       environment {
-         ARM_CLIENT_ID="${arm_client_key}"
-         ARM_SUBSCRIPTION_ID="${arm_sub_id}"
-         ARM_TENANT_ID="${arm_tenant_id}"
-         ARM_CLIENT_PASSWORD="${arm_client_password}"
+                label '7078'
+            }
+        environment {
+          ARM_CLIENT_ID="${arm_client_key}"
+          ARM_SUBSCRIPTION_ID="${arm_sub_id}"
+          ARM_TENANT_ID="${arm_tenant_id}"
+          ARM_CLIENT_PASSWORD="${arm_client_password}"
          }
-         stage('Fetch Latest_Code') {
-           steps {
-             git credentialsId: '17371c59-6b11-42c7-bb25-a37a9febb4db', url: 'https://github.com/ghanshyams92/tazt'
+        stage('Fetch Latest_Code') {
+          steps {
+            git credentialsId: '17371c59-6b11-42c7-bb25-a37a9febb4db', url: 'https://github.com/ghanshyams92/tazt'
            }
          }
       
-         stage('TF Init & Unit Test') {
-           steps {
-             sh 'terraform init'
-             sh 'terraform validate'
+        stage('TF Init & Unit Test') {
+          steps {
+            sh 'terraform init'
+            sh 'terraform validate'
             }      
           }
       
