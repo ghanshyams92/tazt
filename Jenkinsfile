@@ -101,11 +101,13 @@ spec:
       }
       stage('TF Plan') {
         steps {
+           container('terraform-cli') {
            sh """
            terraform plan
            """
         }      
       }
+     }
       stage('Terratest: Deploy, Validate & Undeploy') {
         steps {
            sh """
@@ -118,7 +120,7 @@ spec:
            go test -tags azure . -v
            """
         }      
-      }
+      } 
 
       stage('Approval: Confirm/Abort') {
         steps {
