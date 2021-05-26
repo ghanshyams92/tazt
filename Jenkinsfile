@@ -82,7 +82,7 @@ spec:
               }
           }
       }      
-      
+     }
       stage('TF Init & Unit Test') {
         steps {
           sh 'terraform init'
