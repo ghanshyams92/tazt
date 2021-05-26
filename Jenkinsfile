@@ -1,9 +1,67 @@
-  pipeline {
-    agent {
-      node {
-        label "7078"
-      } 
+pipeline {
+agent {
+        kubernetes {
+      yaml """
+apiVersion: v1
+kind: Pod
+metadata:
+  labels:
+    some-label: test-odu
+spec:
+  securityContext:
+    runAsUser: 10000
+    runAsGroup: 10000
+  containers:
+  - name: jnlp
+    image: 'jenkins/jnlp-slave:4.3-4-alpine'
+    args: ['\$(JENKINS_SECRET)', '\$(JENKINS_NAME)']
+  - name: yair
+    image: us.icr.io/dc-tools/security/yair:1
+    command:
+    - cat
+    tty: true
+    imagePullPolicy: Always
+  - name: kaniko
+    image: gcr.io/kaniko-project/executor:debug-1534f90c9330d40486136b2997e7972a79a69baf
+    imagePullPolicy: Always
+    command:
+    - cat
+    tty: true   
+    securityContext: # https://github.com/GoogleContainerTools/kaniko/issues/681
+      runAsUser: 0
+      runAsGroup: 0
+  - name: openshift-cli
+    image: openshift/origin-cli:v3.11.0
+    command:
+    - cat
+    tty: true
+    securityContext: # https://github.com/GoogleContainerTools/kaniko/issues/681
+      runAsUser: 0
+      runAsGroup: 0
+  - name: checkov
+    image: kennethreitz/pipenv:latest
+    command:
+    - cat
+    tty: true
+    securityContext: # https://github.com/GoogleContainerTools/kaniko/issues/681
+      runAsUser: 0
+      runAsGroup: 0
+  volumes:
+  - name: regsecret
+    projected:
+      sources:
+      - secret:
+          name: regsecret
+          items:
+            - key: .dockerconfigjson
+              path: config.json
+  imagePullSecrets:
+  - name: oduregsecret
+  - name: regsecret
+"""
+        }
     }
+  
     environment {
       ARM_CLIENT_ID="${arm_client_key}"
       ARM_SUBSCRIPTION_ID="${arm_sub_id}"
@@ -12,25 +70,15 @@
       
     }
     stages {
-      stage('Pull Code') {
-        steps {
-          git credentialsId: '17371c59-6b11-42c7-bb25-a37a9febb4db', url: 'https://github.com/ghanshyams92/tazt'
-        }
-      }
-    stage('Checkov: Analyzing static codes for IaC') {
-    agent {
-        docker {
-            image 'kennethreitz/pipenv:latest'
-            args '-u root --privileged -v /var/run/docker.sock:/var/run/docker.sock'
-          }
-      }
-      steps {
-         checkout([$class: 'GitSCM', branches: [[name: 'master']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[credentialsId: 'github', url: 'git@github.com:ghanshyams92/tazt.git']]])
-           script {
-             sh "pipenv install"
-             sh "pipenv run pip install checkov"
-             sh "pipenv run checkov --directory tests/ -o junitxml > result.xml || true"
-             junit "result.xml"
+       stage('Checkov: Analyzing static codes for IaC') {
+          steps {
+            container('checkov') {
+            checkout([$class: 'GitSCM', branches: [[name: 'master']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[credentialsId: 'github', url: 'git@github.com:ghanshyams92/tazt.git']]])
+            script {
+              sh "pipenv install"
+              sh "pipenv run pip install checkov"
+              sh "pipenv run checkov --directory tests/ -o junitxml > result.xml || true"
+              junit "result.xml"
               }
           }
       }      
