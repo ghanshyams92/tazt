@@ -46,6 +46,14 @@ spec:
     securityContext: # https://github.com/GoogleContainerTools/kaniko/issues/681
       runAsUser: 0
       runAsGroup: 0
+  - name: terraform-cli
+    image: hashicorp/terraform:0.13.2
+    command:
+    - cat
+    tty: true
+    securityContext: # https://github.com/GoogleContainerTools/kaniko/issues/681
+      runAsUser: 0
+      runAsGroup: 0
   volumes:
   - name: regsecret
     projected:
@@ -85,11 +93,12 @@ spec:
      }
       stage('TF Init & Unit Test') {
         steps {
+          container('terraform-cli') {
           sh 'terraform init'
           sh 'terraform validate'
         }      
       }
-      
+      }
       stage('TF Plan') {
         steps {
            sh """
