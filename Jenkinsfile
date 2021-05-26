@@ -73,7 +73,7 @@ spec:
        stage('Checkov: Analyzing static codes for IaC') {
           steps {
             container('checkov') {
-            checkout([$class: 'GitSCM', branches: [[name: 'master']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[credentialsId: 'github', url: 'git@github.com:ghanshyams92/tazt.git']]])
+            checkout([$class: 'GitSCM', branches: [[name: 'master']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[credentialsId: 'github', url: 'https://github.com/ghanshyams92/tazt.git']]])
             script {
               sh "pipenv install"
               sh "pipenv run pip install checkov"
