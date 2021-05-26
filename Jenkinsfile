@@ -47,7 +47,7 @@ spec:
       runAsUser: 0
       runAsGroup: 0
   - name: terraform-cli
-    image: gsaini05/terraform-slave:0.13.3
+    image: gsaini05/terraform-az-go:0.15
     command:
     - cat
     tty: true
@@ -110,7 +110,9 @@ spec:
      }
       stage('Terratest: Deploy, Validate & Undeploy') {
         steps {
+           container('terraform-cli') {
            sh """
+           export PATH=$PATH:/usr/local/go/bin
            export arm_client_key="${ARM_CLIENT_ID}"
            export arm_sub_id="${ARM_SUBSCRIPTION_ID}"
            export arm_tenant_id="${ARM_TENANT_ID}"
@@ -121,7 +123,7 @@ spec:
            """
         }      
       } 
-
+     }
       stage('Approval: Confirm/Abort') {
         steps {
           script {
