@@ -47,7 +47,7 @@ spec:
       runAsUser: 0
       runAsGroup: 0
   - name: terraform-cli
-    image: hashicorp/terraform:0.13.2
+    image: gsaini05/terraform-slave:0.13.3
     command:
     - cat
     tty: true
