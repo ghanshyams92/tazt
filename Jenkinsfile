@@ -94,15 +94,15 @@ spec:
       stage('TF Init & Unit Test') {
         steps {
           container('terraform-cli') {
-          sh """
-          export ARM_CLIENT_ID="${arm_client_key}"
-          export ARM_SUBSCRIPTION_ID="${arm_sub_id}"
-          export ARM_TENANT_ID="${arm_tenant_id}"
-          export ARM_CLIENT_PASSWORD="${arm_client_password}"
+          withCredentials([azureServicePrincipal('credentials_id')]) {
+          sh 'az login --service-principal -u $AZURE_CLIENT_ID -p $AZURE_CLIENT_SECRET -t $AZURE_TENANT_ID'
+          sh """    
           terraform init
           terraform validate
+          terraform plan
           """
         }      
+      }
       }
       }
       stage('TF Plan') {
