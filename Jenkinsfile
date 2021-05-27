@@ -99,8 +99,8 @@ spec:
           export ARM_SUBSCRIPTION_ID="${arm_sub_id}"
           export ARM_TENANT_ID="${arm_tenant_id}"
           export ARM_CLIENT_PASSWORD="${arm_client_password}"
-          sh 'terraform init'
-          sh 'terraform validate'
+          terraform init
+          terraform validate
           """
         }      
       }
