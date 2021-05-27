@@ -100,7 +100,7 @@ spec:
           sed -i '12 i client_id="$AZURE_CLIENT_ID"' main.tf
           sed -i '13 i client_secret="$AZURE_CLIENT_SECRET"' main.tf
           sed -i '14 i tenant_id="$AZURE_TENANT_ID"' main.tf
-          sleep 90
+          sleep 5
           terraform init
           terraform validate
           terraform plan
@@ -126,13 +126,14 @@ spec:
       stage('Terratest: Deploy, Validate & Undeploy') {
         steps {
            container('terraform-cli') {
+           withCredentials([azureServicePrincipal('credentials_id')]) {
            sh """
            export PATH=$PATH:/usr/local/go/bin
            export arm_client_key="${ARM_CLIENT_ID}"
            export arm_sub_id="${ARM_SUBSCRIPTION_ID}"
            export arm_tenant_id="${ARM_TENANT_ID}"
            export arm_client_password="${ARM_CLIENT_PASSWORD}"
-           
+           az login --service-principal -u $AZURE_CLIENT_ID -p $AZURE_CLIENT_SECRET -t $AZURE_TENANT_ID
            cd tests
            export PATH=$PATH:/usr/local/go/bin
            go test -tags azure . -v
@@ -140,6 +141,7 @@ spec:
         }      
       } 
      }
+      }
       stage('Approval: Confirm/Abort') {
         steps {
           script {
