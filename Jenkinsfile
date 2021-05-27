@@ -113,10 +113,7 @@ spec:
            container('terraform-cli') {
            sh """
            export PATH=$PATH:/usr/local/go/bin
-           export arm_client_key="${ARM_CLIENT_ID}"
-           export arm_sub_id="${ARM_SUBSCRIPTION_ID}"
-           export arm_tenant_id="${ARM_TENANT_ID}"
-           export arm_client_password="${ARM_CLIENT_PASSWORD}"
+
            terraform plan
            """
         }      
@@ -127,11 +124,7 @@ spec:
            container('terraform-cli') {
            withCredentials([azureServicePrincipal('credentials_id')]) {
            sh """
-           export PATH=$PATH:/usr/local/go/bin
-           export arm_client_key="${ARM_CLIENT_ID}"
-           export arm_sub_id="${ARM_SUBSCRIPTION_ID}"
-           export arm_tenant_id="${ARM_TENANT_ID}"
-           export arm_client_password="${ARM_CLIENT_PASSWORD}"
+
            az login --service-principal -u $AZURE_CLIENT_ID -p $AZURE_CLIENT_SECRET -t $AZURE_TENANT_ID
            cd tests
            export PATH=$PATH:/usr/local/go/bin
