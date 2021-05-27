@@ -78,7 +78,7 @@ spec:
       
     }
     stages {
-       stage('Checkov: Analyzing static codes for IaC') {
+      /* stage('Checkov: Analyzing static codes for IaC') {
           steps {
             container('checkov') {
             checkout([$class: 'GitSCM', branches: [[name: 'master']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[credentialsId: 'github', url: 'https://github.com/ghanshyams92/tazt.git']]])
@@ -90,7 +90,7 @@ spec:
               }
           }
       }      
-     }
+     }*/
       stage('TF Init & Unit Test') {
         steps {
           container('terraform-cli') {
@@ -101,6 +101,7 @@ spec:
           echo "cl_id = $AZURE_CLIENT_ID \n" >> terraform.tfvars
           echo "cl_secret = $AZURE_CLIENT_SECRET \n" >> terraform.tfvars
           echo  "tenant_id = $AZURE_TENANT_ID \n" >> terraform.tfvars
+          sleep 300
           terraform init
           terraform validate
           terraform plan
