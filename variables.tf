@@ -16,7 +16,10 @@
 # OPTIONAL PARAMETERS
 # These parameters have reasonable defaults.
 # ---------------------------------------------------------------------------------------------------------------------
-
+variable "sub_id" {}
+variable "cl_id" {}
+variable "cl_secret" {}
+variable "tenant_id" {}
 variable "location" {
   description = "The location to set for the resource group."
   type        = string
