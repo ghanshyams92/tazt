@@ -70,15 +70,15 @@ spec:
         }
     }
   
-    environment {
+   /* environment {
       ARM_CLIENT_ID="${arm_client_key}"
       ARM_SUBSCRIPTION_ID="${arm_sub_id}"
       ARM_TENANT_ID="${arm_tenant_id}"
       ARM_CLIENT_PASSWORD="${arm_client_password}"
       
-    }
+    } */
     stages {
-      /* stage('Checkov: Analyzing static codes for IaC') {
+       stage('Checkov: Analyzing static codes for IaC') {
           steps {
             container('checkov') {
             checkout([$class: 'GitSCM', branches: [[name: 'master']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[credentialsId: 'github', url: 'https://github.com/ghanshyams92/tazt.git']]])
@@ -90,13 +90,13 @@ spec:
               }
           }
       }      
-     }*/
+     }
       stage('TF Init & Unit Test') {
         steps {
           container('terraform-cli') {
           withCredentials([azureServicePrincipal('credentials_id')]) {
           sh """ 
-          sed -i '11 i subscription_id="${ARM_SUBSCRIPTION_ID}"' main.tf
+          sed -i '11 i subscription_id="$AZURE_SUBSCRIPTION_ID"' main.tf
           sed -i '12 i client_id="$AZURE_CLIENT_ID"' main.tf
           sed -i '13 i client_secret="$AZURE_CLIENT_SECRET"' main.tf
           sed -i '14 i tenant_id="$AZURE_TENANT_ID"' main.tf
