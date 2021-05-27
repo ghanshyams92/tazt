@@ -94,8 +94,15 @@ spec:
       stage('TF Init & Unit Test') {
         steps {
           container('terraform-cli') {
+          sh """
+          export PATH=$PATH:/usr/local/go/bin
+          export ARM_CLIENT_ID="${arm_client_key}"
+          export ARM_SUBSCRIPTION_ID="${arm_sub_id}"
+          export ARM_TENANT_ID="${arm_tenant_id}"
+          export ARM_CLIENT_PASSWORD="${arm_client_password}"
           sh 'terraform init'
           sh 'terraform validate'
+          """
         }      
       }
       }
