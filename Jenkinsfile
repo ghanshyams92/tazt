@@ -96,12 +96,11 @@ spec:
           container('terraform-cli') {
           withCredentials([azureServicePrincipal('credentials_id')]) {
           sh """ 
-          az login --service-principal -u $AZURE_CLIENT_ID -p $AZURE_CLIENT_SECRET -t $AZURE_TENANT_ID
-          echo "sub_id=${ARM_SUBSCRIPTION_ID}" >terraform.tfvars
-          echo "cl_id=$AZURE_CLIENT_ID" >> terraform.tfvars
-          echo "cl_secret=$AZURE_CLIENT_SECRET" >> terraform.tfvars
-          echo  "tenant_id=$AZURE_TENANT_ID" >> terraform.tfvars
-          sleep 120
+         echo "sub_id="${ARM_SUBSCRIPTION_ID}"" >terraform.tfvars
+          echo "cl_id="$AZURE_CLIENT_ID"" >> terraform.tfvars
+          echo "cl_secret="$AZURE_CLIENT_SECRET"" >> terraform.tfvars
+          echo  "tenant_id="$AZURE_TENANT_ID"" >> terraform.tfvars
+          sleep 90
           terraform init
           terraform validate
           terraform plan
