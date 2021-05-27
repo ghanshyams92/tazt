@@ -2,11 +2,10 @@
 # ENVIRONMENT VARIABLES
 # Define these secrets as environment variables
 # ---------------------------------------------------------------------------------------------------------------------
-
-# ARM_CLIENT_ID
-# ARM_CLIENT_SECRET
-# ARM_SUBSCRIPTION_ID
-# ARM_TENANT_ID
+# ARM_CLIENT_ID = "${var.ARM_CLIENT_ID}"
+# ARM_CLIENT_SECRET = "${var.ARM_CLIENT_PASSWORD}"
+# ARM_SUBSCRIPTION_ID = "${var.ARM_SUBSCRIPTION_ID}"
+# ARM_TENANT_ID = "${var.ARM_TENANT_ID}"
 
 # ---------------------------------------------------------------------------------------------------------------------
 # REQUIRED PARAMETERS
