@@ -8,10 +8,7 @@
 provider "azurerm" {
   version = "~> 2.20"
   features {}
-  subscription_id = "a21dced2-2289-4a4a-8aed-142c2c894f9f"
-  client_id="52786ff9-f74d-46a2-9fb7-ef3f30e8a6d3"
-  client_secret="h6nr8GBRJ9JGHwgB~3fSoq_Q95CQ0UjKuB"
-  tenant_id="b65ef724-dcee-4483-b9aa-74adc4cbff1c"
+
 
 
 }
