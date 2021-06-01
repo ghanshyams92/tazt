@@ -118,7 +118,7 @@ spec:
         }      
       }
      }
-      stage('Terratest: Deploy, Validate & Undeploy') {
+     /* stage('Terratest: Deploy, Validate & Undeploy') {
         steps {
            container('terraform-cli') {
            withCredentials([azureServicePrincipal('credentials_id')]) {
@@ -131,7 +131,7 @@ spec:
         }      
       } 
      }
-      }
+      } */
       stage('Approval: Confirm/Abort') {
         steps {
           script {
