@@ -46,8 +46,7 @@ spec:
 """
         }
     }
-  
-    environment { } 
+   
     stages {
        stage('Checkov: Analyzing static codes for IaC') {
           steps {
