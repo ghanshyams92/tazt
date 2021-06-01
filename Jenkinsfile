@@ -71,10 +71,10 @@ spec:
     }
   
     environment {
-      ARM_CLIENT_ID="${arm_client_key}"
+  //    ARM_CLIENT_ID="${arm_client_key}"
       ARM_SUBSCRIPTION_ID="$AZURE_SUBSCRIPTION_ID"
-      ARM_TENANT_ID="${arm_tenant_id}"
-      ARM_CLIENT_PASSWORD="${arm_client_password}"
+  //    ARM_TENANT_ID="${arm_tenant_id}"
+  //    ARM_CLIENT_PASSWORD="${arm_client_password}"
       
     } 
     stages {
@@ -126,6 +126,7 @@ spec:
            az login --service-principal -u $AZURE_CLIENT_ID -p $AZURE_CLIENT_SECRET -t $AZURE_TENANT_ID
            cd tests
            export PATH=$PATH:/usr/local/go/bin
+           export ARM_SUBSCRIPTION_ID="${AZURE_SUBSCRIPTION_ID}"
            go test -tags azure . -v
            """
         }      
