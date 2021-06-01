@@ -72,7 +72,7 @@ spec:
   
     environment {
       ARM_CLIENT_ID="${arm_client_key}"
-      ARM_SUBSCRIPTION_ID="${arm_sub_id}"
+      ARM_SUBSCRIPTION_ID="$AZURE_SUBSCRIPTION_ID"
       ARM_TENANT_ID="${arm_tenant_id}"
       ARM_CLIENT_PASSWORD="${arm_client_password}"
       
@@ -118,7 +118,7 @@ spec:
         }      
       }
      }
-     /* stage('Terratest: Deploy, Validate & Undeploy') {
+      stage('Terratest: Deploy, Validate & Undeploy') {
         steps {
            container('terraform-cli') {
            withCredentials([azureServicePrincipal('credentials_id')]) {
@@ -131,7 +131,7 @@ spec:
         }      
       } 
      }
-      } */
+      } 
       stage('Approval: Confirm/Abort') {
         steps {
           script {
